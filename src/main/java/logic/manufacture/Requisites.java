@@ -1,8 +1,11 @@
 package logic.manufacture;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Requisites implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1234543521L;
     private String address;
     private String abbreviation;
 

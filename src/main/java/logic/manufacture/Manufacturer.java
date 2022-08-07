@@ -1,12 +1,15 @@
 package logic.manufacture;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Manufacturer implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1234543521L;
     private long id;
     private String name;
     private String country;
@@ -56,7 +59,6 @@ public class Manufacturer implements Serializable {
         return souvenirList;
     }
 
-
     public void makeSouvenir(Souvenir souvenir){
         souvenirList.add(souvenir);
     }
@@ -65,7 +67,7 @@ public class Manufacturer implements Serializable {
     public String toString() {
         return "{name='" + name + '\'' +
                 ", country='" + country + '\'' +
-                ", requisites=" + requisites +
+                ' ' + requisites +
                 '}';
     }
 

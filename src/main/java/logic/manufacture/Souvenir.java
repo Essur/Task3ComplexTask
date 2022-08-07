@@ -1,10 +1,13 @@
 package logic.manufacture;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Souvenir implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1234543521L;
     private String name;
     private LocalDate dateOfRelease;
     private double price;

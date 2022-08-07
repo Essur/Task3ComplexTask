@@ -44,6 +44,7 @@ public class SaveAndLoad implements Serializable{
             String name = in.nextLine();
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(name + ".dat"))) {
                 oos.writeObject(manufacturerList);
+                System.out.println("Successfully saved");
             } catch (FileNotFoundException e) {
                 System.err.println("File not found: " + e.getMessage());
             } catch (IOException e) {
@@ -59,6 +60,7 @@ public class SaveAndLoad implements Serializable{
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(name + ".dat"))) {
             List<Manufacturer> list = (List<Manufacturer>) ois.readObject();
             manufacturerList.addAll(list);
+
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
         } catch (IOException e) {
@@ -66,5 +68,6 @@ public class SaveAndLoad implements Serializable{
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("Successfully loaded");
     }
 }

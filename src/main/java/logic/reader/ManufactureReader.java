@@ -107,7 +107,6 @@ public class ManufactureReader extends Reader {
         renewList();
         if(!manufacturerList.isEmpty()) {
             System.out.println("Enter the name of souvenir ");
-            in.nextLine();
             String name = in.nextLine();
             int year = inputInt("Enter the year in which the souvenir was made");
             consignmentNote.getShop().printManufacturerWithSouvenirAndYear(name, year);
@@ -182,7 +181,6 @@ public class ManufactureReader extends Reader {
                 System.out.println("Select the country of the manufacturer you want to " + msg);
                 consignmentNote.sendConsignmentNote();
                 System.out.println("Enter country: ");
-                in.nextLine();
                 return in.nextLine();
             } else {
                 System.err.println("No one manufacturers, can`t " + msg);

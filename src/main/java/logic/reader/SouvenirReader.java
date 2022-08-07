@@ -48,7 +48,8 @@ public class SouvenirReader extends Reader {
             id = in.nextLong();
             if(containsId(id)){
                 System.out.println("Select the name of souvenir which need to remove");
-                name = in.next();
+                in.nextLine();
+                name = in.nextLine();
                 consignmentNote.removeSouvenir(id, name);
                 consignmentNote.sendConsignmentNote();
                 consignmentNote.printSouvenirList();

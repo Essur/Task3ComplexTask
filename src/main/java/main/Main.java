@@ -1,7 +1,6 @@
 package main;
 
 import logic.reader.ManufactureReader;
-import logic.reader.Reader;
 import logic.reader.SouvenirReader;
 import logic.saveAndLoad.SaveAndLoad;
 import logic.shop.ConsignmentNote;
@@ -34,20 +33,16 @@ public class Main {
                 case "2" -> souvenirReader.add();
                 case "3" -> manufacturerReader.remove();
                 case "4" -> souvenirReader.remove();
-                case "5" -> shop.printAllManufacturers();
-                case "6" -> shop.printCatalog();
-                case "7" -> shop.printManufacturerInfo(manufacturerReader.chooseManufacturerById());
-                case "8" -> {
-                    String country = manufacturerReader.chooseManufacturerByCountry();
-                    if (country != null) {
-                        shop.printManufacturerInfo(country);
-                    }
-                }
-                case "9" -> shop.printLessPrice(manufacturerReader.chooseManufacturerByPrice());
-                case "10" -> manufacturerReader.searchManufacturerBySouvenirAndDate();
-                case "11" -> souvenirReader.searchSouvenirsByYear();
-                case "12" -> saveToFile();
-                case "13" -> loadFromFile();
+                case "5" -> clearLists();
+                case "6" -> shop.printAllManufacturers();
+                case "7" -> shop.printCatalog();
+                case "8" -> shop.printManufacturerInfo(manufacturerReader.chooseManufacturerById());
+                case "9" -> searchByCountry();
+                case "10" -> shop.printLessPrice(manufacturerReader.chooseManufacturerByPrice());
+                case "11" -> manufacturerReader.searchManufacturerBySouvenirAndDate();
+                case "12" -> souvenirReader.searchSouvenirsByYear();
+                case "13" -> saveToFile();
+                case "14" -> loadFromFile();
                 case "Exit", "exit" -> {
                     System.out.println("Exiting, thx for using!");
                     break loop;
@@ -63,31 +58,41 @@ public class Main {
                     2 - Create souvenir
                     3 - Remove manufacturer
                     4 - Remove souvenir
-                    5 - Show all manufacturers
-                    6 - Show all manufacturers and their souvenirs
-                    7 - Show information about souvenirs of the selected manufacturer
-                    8 - Show information about souvenirs by country
-                    9 - Show information about manufacturers whose prices less than specified
-                    10 - Search souvenirs by name and release year
-                    11 - Search souvenirs by year of release
-                    12 - Save data from catalog in file
-                    13 - Load data in catalog from file
+                    5 - Remove all manufacturers and their souvenirs
+                    6 - Show all manufacturers
+                    7 - Show all manufacturers and their souvenirs
+                    8 - Show information about souvenirs of the selected manufacturer
+                    9 - Show information about souvenirs by country
+                    10 - Show information about manufacturers whose prices less than specified
+                    11 - Search the manufacturer by the name of the souvenir and the year of made
+                    12 - Search souvenirs by year of release
+                    13 - Save data from catalog in file
+                    14 - Load data in catalog from file
                     Enter exit for finish program
                     """
         );
         return in.nextLine();
     }
-    public void loadFromFile(){
+    private void loadFromFile(){
         saveAndLoad.clearLoaderData();
         saveAndLoad.loadData();
         shop.clearCatalog();
         shop.setCatalog(saveAndLoad.getManufacturerList());
         shop.sendToConsignmentNote(consignmentNote);
-        manufacturerReader.setConsignmentNote(shop.getConsignmentNote());
-        souvenirReader.setConsignmentNote(shop.getConsignmentNote());
     }
-    public void saveToFile(){
+    private void saveToFile(){
         saveAndLoad.setManufacturerList(shop.getCatalog());
         saveAndLoad.saveData();
+    }
+    private void clearLists(){
+        shop.clearCatalog();
+        consignmentNote.clearList();
+    }
+
+    private void searchByCountry(){
+        String country = manufacturerReader.chooseManufacturerByCountry();
+        if (country != null) {
+            shop.printManufacturerInfo(country);
+        }
     }
 }

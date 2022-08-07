@@ -4,9 +4,7 @@ import logic.manufacture.Manufacturer;
 import logic.manufacture.Souvenir;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**Class ConsignmentNote work with CRUD (create;remove;update;delete) operations of program
  * And send done map of Manufacturers and Souvenirs in the Shop class*/
@@ -23,10 +21,6 @@ public class ConsignmentNote {
         return shop;
     }
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
-
     public List<Manufacturer> getManufacturerList() {
         return manufacturerList;
     }
@@ -34,6 +28,9 @@ public class ConsignmentNote {
 
     public void setManufacturerList(List<Manufacturer> manufacturerList) {
         this.manufacturerList = manufacturerList;
+    }
+    public void clearList(){
+        this.manufacturerList.clear();
     }
 
     public void addManufacturer(Manufacturer manufacturer){
@@ -53,6 +50,7 @@ public class ConsignmentNote {
          manufacturerList.stream().filter(manufacturer -> manufacturer.getId() == id)
                  .forEach(manufacturer -> manufacturer.getSouvenirList().removeIf(souvenir -> name.equals(souvenir.getName())));
     }
+    /**Method which send information about manufacturers and their souvenirs to shop*/
     public void sendConsignmentNote(){
         shop.setConsignmentNote(this);
         shop.setCatalog(this.manufacturerList);

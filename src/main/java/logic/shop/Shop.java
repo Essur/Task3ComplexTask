@@ -22,10 +22,6 @@ public class Shop {
         this.consignmentNote = consignmentNote;
     }
 
-    public ConsignmentNote getConsignmentNote() {
-        return consignmentNote;
-    }
-
     public List<Manufacturer> getCatalog() {
         return catalog;
     }
@@ -39,6 +35,7 @@ public class Shop {
     }
     public void clearCatalog(){
         this.catalog.clear();
+
     }
 
     /**Method which print the manufacturer by the given id*/
@@ -59,9 +56,10 @@ public class Shop {
 
     /**Method print all manufacturers and their souvenirs if the price of the souvenirs made is lower than entered*/
     public void printLessPrice(double price){
-        List<Manufacturer> list = catalog.stream().filter(manufacturer -> manufacturer.getSouvenirList().stream().allMatch(souvenir -> souvenir.getPrice() < price)).toList();
+        List<Manufacturer> list = catalog.stream().filter(manufacturer -> manufacturer.getSouvenirList().stream().allMatch(souvenir -> souvenir.getPrice() < price)
+                && !manufacturer.getSouvenirList().isEmpty()).toList();
         if (!list.isEmpty()){
-            list.forEach(manufacturer -> System.out.println(splitter + "Manufacturer " + manufacturer.getId() + ": " + '\n' +
+            list.forEach(manufacturer -> System.out.print(splitter + "Manufacturer " + manufacturer.getId() + ": " + '\n' +
                     "Souvenirs: " +  '\n' + manufacturer.getSouvenirList() + splitter));
         } else System.err.println("No one souvenir below the set price");
     }
@@ -71,15 +69,19 @@ public class Shop {
         List<Manufacturer> manufacturers = catalog.stream().filter(manufacturer -> manufacturer.getSouvenirList().stream()
                 .anyMatch(souvenir -> name.equals(souvenir.getName()) && souvenir.getDateOfRelease().getYear() == year)).toList();
         if(!manufacturers.isEmpty()){
-            manufacturers.forEach(manufacturer -> System.out.println(splitter + "Manufacturer " + manufacturer.getId() + splitter));
+            manufacturers.forEach(manufacturer -> System.out.print(splitter + "Manufacturer " + manufacturer.getId() + ": "+ manufacturer + splitter));
         } else System.err.println("No one matches found");
     }
 
     /**Search souvenirs by year of release*/
     public void printSouvenirsReleasedInYear(int year){
-        List<Souvenir> souvenirs = catalog.stream().flatMap(manufacturer -> manufacturer.getSouvenirList().stream()
-                .filter(souvenir -> souvenir.getDateOfRelease().getYear() == year)).toList();
-        souvenirs.forEach(souvenir -> System.out.print(splitter + souvenir + "\n"));
+        Map<Manufacturer, List<Souvenir>> map = new HashMap<>();
+        List<Souvenir> souvenirs = new ArrayList<>();
+        catalog.forEach(manufacturer -> {
+            manufacturer.getSouvenirList().stream().filter(souvenir -> souvenir.getDateOfRelease().getYear() == year).forEach(souvenirs::add);
+            map.put(manufacturer, souvenirs);
+        });
+        map.forEach((manufacturer, souvenirs1) -> System.out.println(splitter + "Manufacturer " + manufacturer.getId() + ":\n" + "Souvenirs: " + souvenirs1));
         System.out.println(splitter);
     }
 
@@ -94,7 +96,7 @@ public class Shop {
     /**Method print all manufacturers with their souvenirs*/
     public void printCatalog(){
         if (!catalog.isEmpty()) {
-            catalog.forEach(manufacturer -> System.out.println(splitter + "Manufacturer: " + manufacturer + '\n' + "Souvenirs: " + manufacturer.getSouvenirList() + splitter));
+            catalog.forEach(manufacturer -> System.out.print(splitter + "Manufacturer: " + manufacturer + '\n' + "Souvenirs: " + manufacturer.getSouvenirList() + splitter));
         } else System.err.println("Catalog is empty");
     }
 
